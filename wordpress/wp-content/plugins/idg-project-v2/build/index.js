@@ -32,6 +32,12 @@ function ProjectsArchive() {
       onClick: event => handleCategoryChange(event)
     }, Categories[key]);
   });
+
+  // TODO: 
+  // do i set up the functionality first or get the data first? probably get the data.
+  // figure out how to pull the actual projects data from the wp rest api. 
+  // query needs to only return feat_img, title, and category info.
+  // onClick will pull add'l info to go in the hover state.
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     id: "category-list"
   }, categoriesList), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
