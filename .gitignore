@@ -1,2 +1,4 @@
 # .gitignore
 mysql/
+
+wordpress/wp-content/plugins/idg-project-v2/node_modules/
