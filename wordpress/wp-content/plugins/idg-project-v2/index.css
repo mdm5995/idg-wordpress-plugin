@@ -1,0 +1,87 @@
+* {
+	box-sizing: border-box;
+}
+
+#category-list {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  list-style-type: none;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 0 auto;
+  max-width: 1296px;
+}
+
+#category-list button {
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+	border: none;
+	font-size: 1.125rem;
+	padding: 1rem 4.5rem;
+	cursor: pointer;
+}
+
+#category-list button.active {
+	padding-top: 3rem;
+}
+
+#k12 {
+  background-color: #76bb21;
+}
+
+#collegiate {
+  background-color: #315AB4;
+}
+
+#cultural-faith {
+  background-color: #E2A13E;
+}
+
+#civic {
+  background-color: #8C1DB9;
+}
+
+#commercial {
+  background-color: #BC0F05;
+}
+
+#projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 400px);
+	grid-auto-rows: 316px;
+  gap: 3rem;
+  margin: 0 auto;
+  max-width: 1296px;
+  margin-top: 3rem;
+	line-height: 0;
+}
+
+#projects-grid img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+div.k12 {
+	border: 4px solid #76bb21;
+}
+
+div.collegiate {
+	border: 4px solid #315AB4;
+}
+
+div.cultural-faith {
+	border: 4px solid #E2A13E;
+}
+
+div.civic {
+	border: 4px solid #8C1DB9;
+}
+
+div.commercial {
+	border: 4px solid #BC0F05;
+}
+
