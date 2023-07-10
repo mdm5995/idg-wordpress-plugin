@@ -42,16 +42,16 @@ function idg_projects_page_enqueue_scripts() {
 		// Enqueue your React component script here
 		wp_enqueue_script(
 			'idg-project-page',
-			plugins_url('/js/ProjectPage.jsx', __FILE__),
+			plugins_url('/build/index.js', __FILE__),
 			['wp-element'],
 			'1.0',
-			false
+			true
 		);
 
 		// Enqueue stylesheet
 		wp_enqueue_style(
 			'idg-project-page-styles',
-			plugins_url('/css/ProjectPage-styles.css', __FILE__),
+			plugins_url('/index.css', __FILE__),
 			array(),
 			'1.0',
 			false
