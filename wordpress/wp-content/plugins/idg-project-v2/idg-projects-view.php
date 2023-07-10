@@ -39,9 +39,24 @@ add_filter('template_include', 'custom_post_type_archive_template');
 function idg_projects_page_enqueue_scripts() {
 	if (is_post_type_archive('projects')) {
 
-			// Enqueue your React component script here
-			wp_enqueue_script('idg-project-page', plugins_url('/js/ProjectPage.jsx', __FILE__), ['wp-element'], '1.0', false);
-			wp_enqueue_style('idg-project-page-styles', plugins_url('/css/ProjectPage-styles.css', __FILE__), array(), '1.0', false);
+		// Enqueue your React component script here
+		wp_enqueue_script(
+			'idg-project-page',
+			plugins_url('/js/ProjectPage.jsx', __FILE__),
+			['wp-element'],
+			'1.0',
+			false
+		);
+
+		// Enqueue stylesheet
+		wp_enqueue_style(
+			'idg-project-page-styles',
+			plugins_url('/css/ProjectPage-styles.css', __FILE__),
+			array(),
+			'1.0',
+			false
+		);
+
 	}
 }
 add_action('wp_enqueue_scripts', 'idg_projects_page_enqueue_scripts');
