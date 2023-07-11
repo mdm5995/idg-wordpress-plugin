@@ -65,23 +65,23 @@
 	object-fit: cover;
 }
 
-div.k12 {
+.k12 {
 	border: 4px solid #76bb21;
 }
 
-div.collegiate {
+.collegiate {
 	border: 4px solid #315AB4;
 }
 
-div.cultural-faith {
+.cultural-faith {
 	border: 4px solid #E2A13E;
 }
 
-div.civic {
+.civic {
 	border: 4px solid #8C1DB9;
 }
 
-div.commercial {
+.commercial {
 	border: 4px solid #BC0F05;
 }
 
