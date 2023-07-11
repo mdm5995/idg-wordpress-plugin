@@ -10,7 +10,7 @@ Author URI: https://morgan-moore.com/
 
 // register custom post type 'project'
 function register_custom_project_post_type() {
-	$args = array(
+	$post_type_args = array(
 		'public' => true,
 		'label' => 'Projects',
 		'description' => 'A collection of projects created by IDG Architects',
@@ -18,8 +18,16 @@ function register_custom_project_post_type() {
 		'menu_position' => 20,
 		'menu_icon' => 'dashicons-portfolio',
 		'has_archive' => true,
+		'taxonomy' => 'project-categories',
+		'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt'),
 	);
-	register_post_type( 'projects', $args );
+	$taxonomy_args = array(
+		'public' => true,
+		'hierarchical' => true,
+		'show_in_rest' => true,
+	);
+	register_post_type('projects', $post_type_args);
+	register_taxonomy('project-categories', 'projects', $taxonomy_args);
 }
 
 add_action( 'init', 'register_custom_project_post_type' );
