@@ -37,7 +37,7 @@ export default function ProjectsArchive() {
 						content: project.content.rendered,
 						link: project.link,
 						thumbnail: project['_embedded']['wp:featuredmedia'][0].source_url,
-						category: 'k12'
+						category: project['_embedded']['wp:term'][0][0].slug
 					};
 					console.log('this is the projectobject:');
 					console.log(projectObject);
