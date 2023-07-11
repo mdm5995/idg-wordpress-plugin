@@ -20,6 +20,7 @@ function register_custom_project_post_type() {
 		'has_archive' => true,
 		'taxonomy' => 'project-categories',
 		'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt'),
+		/* 'template' => array( TODO: add array of blocks for default template!! ) */ 
 	);
 	$taxonomy_args = array(
 		'public' => true,
