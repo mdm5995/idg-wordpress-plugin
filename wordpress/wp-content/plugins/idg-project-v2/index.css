@@ -67,6 +67,8 @@ button#commercial {
 
 .k12 {
 	border: 4px solid #76bb21;
+	background: rgb(79,142,1);
+	background: linear-gradient(180deg, rgba(79,142,1,1) 0%, rgba(118,187,33,1) 100%); 
 }
 
 .collegiate {
@@ -75,6 +77,8 @@ button#commercial {
 
 .cultural-faith {
 	border: 4px solid #E2A13E;
+  background: rgb(199,123,6);
+  background: linear-gradient(180deg, rgba(199,123,6,1) 0%, rgba(226,161,62,1) 100%);
 }
 
 .civic {
@@ -85,3 +89,33 @@ button#commercial {
 	border: 4px solid #BC0F05;
 }
 
+.projects-title {
+	color: red;
+}
+
+#active-project-content {
+  max-width: 1296px;
+  margin: 0 auto;
+  padding: 3rem;
+  color: white;
+  display: flex;
+  gap: 1.5rem;
+	background: transparent;
+}
+
+.active-project-image {
+	object-fit: cover;
+	/* TODO: change to max-width (maybe) */
+	width: 600px;
+	height: 450px;
+	/* END TODO */
+}
+
+container#active-project {
+	display: block;
+  margin-top: 3rem;
+}
+
+.hidden {
+	display: none;
+}
