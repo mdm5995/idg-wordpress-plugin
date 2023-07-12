@@ -28,23 +28,23 @@
 	padding-top: 3rem;
 }
 
-#k12 {
+button#k12 {
   background-color: #76bb21;
 }
 
-#collegiate {
+button#collegiate {
   background-color: #315AB4;
 }
 
-#cultural-faith {
+button#cultural-faith {
   background-color: #E2A13E;
 }
 
-#civic {
+button#civic {
   background-color: #8C1DB9;
 }
 
-#commercial {
+button#commercial {
   background-color: #BC0F05;
 }
 
