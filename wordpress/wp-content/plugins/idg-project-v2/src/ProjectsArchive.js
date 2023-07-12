@@ -46,8 +46,6 @@ export default function ProjectsArchive() {
 		);
 	});
 
-	const [projects, setProjects] = useState([]);
-	const [category, setCategory] = useState('all');
 
 	const getProjectsData = () => {
 		const projectsArray = fetch('https://localhost/wp-json/wp/v2/projects?_embed')
