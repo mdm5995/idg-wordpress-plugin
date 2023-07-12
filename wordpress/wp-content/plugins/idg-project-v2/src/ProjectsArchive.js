@@ -7,11 +7,34 @@ export default function ProjectsArchive() {
 		'cultural-faith': 'Cultural/Faith',
 		'civic': 'Civic',
 		'commercial': 'Commercial',
-	}
+	};
+
+	const handleCategoryChange = (event) => {
+		const newCategory = event.target.value;
+		const newCategoryButton = document.getElementById(newCategory);
+
+		const oldCategoryButton = document.getElementById(category);
+
+		if (category === 'all') {
+			newCategoryButton.classList.add('active');
+			setCategory(newCategory);
+		}
+
+		if (category === event.target.value) {
+			oldCategoryButton.classList.remove('active');
+			setCategory('all');
+		}
+
+		if (category !== event.target.value) {
+			oldCategoryButton.classList.remove('active');
+			newCategoryButton.classList.add('active');
+			setCategory(newCategory);
+		}
+	};
 
 	const categoriesList = Object.keys(Categories).map((key) => {
 		return (
-			<button key={key} value={key} id={key} onClick={(event) => handleCategoryChange(event)}>
+			<button key={key} value={key} id={key} onClick={handleCategoryChange}>
 				{Categories[key]}
 			</button>
 		);
