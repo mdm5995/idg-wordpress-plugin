@@ -73,6 +73,8 @@ button#commercial {
 
 .collegiate {
 	border: 4px solid #315AB4;
+	background: rgb(6,52,153);
+	background: linear-gradient(180deg, rgba(6,52,153,1) 0%, rgba(49,90,180,1) 100%); 
 }
 
 .cultural-faith {
@@ -83,10 +85,14 @@ button#commercial {
 
 .civic {
 	border: 4px solid #8C1DB9;
+	background: rgb(91,7,125);
+	background: linear-gradient(180deg, rgba(91,7,125,1) 0%, rgba(140,29,185,1) 100%); 
 }
 
 .commercial {
 	border: 4px solid #BC0F05;
+	background: rgb(117,10,4);
+	background: linear-gradient(180deg, rgba(117,10,4,1) 0%, rgba(188,15,5,1) 100%); 
 }
 
 .projects-title {
