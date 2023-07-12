@@ -9,6 +9,10 @@ export default function ProjectsArchive() {
 		'commercial': 'Commercial',
 	};
 
+	const [projects, setProjects] = useState([]);
+	const [category, setCategory] = useState('all');
+	const [activeProjectId, setActiveProjectId] = useState(null);
+
 	const handleCategoryChange = (event) => {
 		const newCategory = event.target.value;
 		const newCategoryButton = document.getElementById(newCategory);
