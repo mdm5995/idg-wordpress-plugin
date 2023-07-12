@@ -1,5 +1,24 @@
 import { useState, useEffect } from '@wordpress/element';
 
+const ActiveProject = ({projects, projectId}) => {
+	console.log(projects);
+	const selectedProject = projects.find((project) => {
+		return project.id === parseInt(projectId);
+	});
+	console.log(selectedProject);
+	if (selectedProject) {
+		return (
+			<container id='active-project' className={selectedProject.category}>
+				<section id='active-project-content'>
+					<img className='active-project-image' src={selectedProject.thumbnail} />
+					<section id='active-project-description' dangerouslySetInnerHTML={selectedProject.content}></section>
+				</section>
+			</container>
+		);
+	};
+	return null;
+};
+
 export default function ProjectsArchive() {
 	const Categories = {
 		'k12': 'K-12',
@@ -55,7 +74,8 @@ export default function ProjectsArchive() {
 					const projectObject = {
 						id: project.id,
 						title: project.title.rendered,
-						content: project.content.rendered,
+						content: {__html: project.content.rendered},
+						excerpt: {__html: project.excerpt.rendered},
 						link: project.link,
 						thumbnail: project['_embedded']['wp:featuredmedia'][0].source_url,
 						category: project['_embedded']['wp:term'][0][0].slug
@@ -67,9 +87,11 @@ export default function ProjectsArchive() {
 		return projectsArray;
 	};
 
+	// handles API call for getting projects data
 	useEffect(() => {
 		let ignore = false;
 		setProjects([]);
+		setActiveProjectId(null);
 		getProjectsData()
 		.then((projectsArray) => {
 			if (!ignore) {
@@ -87,73 +109,48 @@ export default function ProjectsArchive() {
 		return () => {
 			ignore = true;
 		};
-	}, []);
+	}, [category]);
+
+	const handleProjectClick = (event) => {
+		// this function needs to:
+		// setActiveProjectId(this project);
+		// hide this figure ( or animate it away or similar );
+		// that might be it. Handle creating DOM elements inside 
+		// setActiveProjectId or a useEffect hook with activeProjectId as dep
+
+		// clear prev hidden figures, if any
+		const hiddenFigure = document.querySelector('figure.hidden');
+		if (hiddenFigure !== null) {
+			hiddenFigure.classList.remove('hidden');
+		};
+
+		const figureElement = event.currentTarget;
+
+		// assigns int: project.id 
+		const selectedProjectId = figureElement.getAttribute('projectId');
+		figureElement.classList.add('hidden');
+		setActiveProjectId(selectedProjectId);
+		return;
+	};
 
 	const projectsList = projects.map((project) => {
 			return (
-			<div className={`project-item ${project.category}`}>
-				<a href={project.link}>
-					<h1>{project.title}</h1>
-					<img src={project.thumbnail}/>
-				</a>
-			</div>
+			<figure projectId={project.id} onClick={handleProjectClick} className={`project-item ${project.category}`}>
+				<img src={project.thumbnail}/>
+				<figcaption className='project-title hidden'>{project.title}</figcaption>
+			</figure>
 		);
 	});
 
 	return (
 		<div>
+			<h1>Projects</h1>
 			<section id='category-list'>
 				{categoriesList}
 			</section>
+			{activeProjectId !== null && <ActiveProject key={activeProjectId} projects={projects} projectId={activeProjectId} />}
 			<div id='projects-grid'>
 				{projectsList}
-			</div>
-			<div id='projects-grid'>
-				<div className='project-item k12'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item k12'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item commercial'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item civic'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item collegiate'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item collegiate'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item k12'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item cultural-faith'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
-				<div className='project-item k12'>
-					<a>
-						<img src='https://placeholder.co/400x316'/>
-					</a>
-				</div>
 			</div>
 		</div>
 	);
