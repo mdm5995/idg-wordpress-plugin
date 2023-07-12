@@ -28,8 +28,6 @@ export default function ProjectsArchive() {
 		const projectsArray = fetch('https://localhost/wp-json/wp/v2/projects?_embed')
 			.then((response) => response.json())
 			.then((json) => {
-				console.log('this is the json:');
-				console.log(json);
 				const projectsArray = json.map((project) => {
 					const projectObject = {
 						id: project.id,
@@ -39,12 +37,8 @@ export default function ProjectsArchive() {
 						thumbnail: project['_embedded']['wp:featuredmedia'][0].source_url,
 						category: project['_embedded']['wp:term'][0][0].slug
 					};
-					console.log('this is the projectobject:');
-					console.log(projectObject);
 					return projectObject;
 				});
-				console.log('this is the projectArray:');
-				console.log(projectsArray);
 				return projectsArray;
 			}).catch((e) => console.error('error!' + e));
 		return projectsArray;
