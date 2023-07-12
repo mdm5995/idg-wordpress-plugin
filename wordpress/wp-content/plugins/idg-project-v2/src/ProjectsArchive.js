@@ -56,7 +56,15 @@ export default function ProjectsArchive() {
 		getProjectsData()
 		.then((projectsArray) => {
 			if (!ignore) {
-				setProjects(projectsArray);
+				setProjects(projectsArray.filter((project) => {
+					if (category === 'all') {
+						return true;
+					}
+					if (category === project.category) {
+						return true;
+					}
+					return false;
+				}));
 			};
 		});
 		return () => {
