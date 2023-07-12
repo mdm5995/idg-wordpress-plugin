@@ -13,22 +13,24 @@ export default function ProjectsArchive() {
 		const newCategory = event.target.value;
 		const newCategoryButton = document.getElementById(newCategory);
 
-		const oldCategoryButton = document.getElementById(category);
-
 		if (category === 'all') {
 			newCategoryButton.classList.add('active');
 			setCategory(newCategory);
+			return;
 		}
 
+		const oldCategoryButton = document.getElementById(category);
 		if (category === event.target.value) {
 			oldCategoryButton.classList.remove('active');
 			setCategory('all');
+			return;
 		}
 
 		if (category !== event.target.value) {
 			oldCategoryButton.classList.remove('active');
 			newCategoryButton.classList.add('active');
 			setCategory(newCategory);
+			return;
 		}
 	};
 
