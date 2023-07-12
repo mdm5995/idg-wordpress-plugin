@@ -42,10 +42,6 @@ export default function ProjectsArchive() {
 		);
 	});
 
-	// TODO: add category handling
-	// need to update projects on category change 
-	// (NOTE: might cause weird infinite loop shit again!)
-
 	const [projects, setProjects] = useState([]);
 	const [category, setCategory] = useState('all');
 
