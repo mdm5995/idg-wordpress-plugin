@@ -150,6 +150,10 @@ container#active-project {
 	align-self: flex-end;
 }
 
+#close-button {
+	color: white;
+}
+
 hr {
   background-color: white;
   width: 100%;
