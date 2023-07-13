@@ -55,7 +55,21 @@ export default function ProjectsArchive() {
 			setCategory(newCategory);
 			return;
 		}
-	};
+	}
+
+	const clearHiddenFigures = () => {
+		const hiddenFigure = document.querySelector('figure.hidden');
+		if (hiddenFigure !== null) {
+			hiddenFigure.classList.remove('hidden');
+		};
+
+		return;
+	}
+
+	const handleActiveProjectClose = (event) => {
+		clearHiddenFigures();
+		setActiveProjectId(null);
+	}
 
 	const categoriesList = Object.keys(Categories).map((key) => {
 		return (
@@ -119,10 +133,7 @@ export default function ProjectsArchive() {
 		// setActiveProjectId or a useEffect hook with activeProjectId as dep
 
 		// clear prev hidden figures, if any
-		const hiddenFigure = document.querySelector('figure.hidden');
-		if (hiddenFigure !== null) {
-			hiddenFigure.classList.remove('hidden');
-		};
+		clearHiddenFigures();
 
 		const figureElement = event.currentTarget;
 
