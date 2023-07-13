@@ -122,7 +122,7 @@ export default function ProjectsArchive() {
 				return projectsArray;
 			}).catch((e) => console.error('error!' + e));
 		return projectsArray;
-	};
+	}
 
 	// handles API call for getting projects data
 	useEffect(() => {
@@ -149,11 +149,6 @@ export default function ProjectsArchive() {
 	}, [category]);
 
 	const handleProjectClick = (event) => {
-		// this function needs to:
-		// setActiveProjectId(this project);
-		// hide this figure ( or animate it away or similar );
-		// that might be it. Handle creating DOM elements inside 
-		// setActiveProjectId or a useEffect hook with activeProjectId as dep
 
 		// clear prev hidden figures, if any
 		clearHiddenFigures();
@@ -165,7 +160,7 @@ export default function ProjectsArchive() {
 		figureElement.classList.add('hidden');
 		setActiveProjectId(selectedProjectId);
 		return;
-	};
+	}
 
 	const projectsList = projects.map((project) => {
 			return (
