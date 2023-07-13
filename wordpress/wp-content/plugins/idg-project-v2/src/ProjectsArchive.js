@@ -1,17 +1,40 @@
 import { useState, useEffect } from '@wordpress/element';
 
-const ActiveProject = ({projects, projectId}) => {
-	console.log(projects);
+// TODO: implement scroll to auto scroll to active project dive on rerender.
+// need to research
+
+const ActiveProject = ({projects, projectId, handleClose}) => {
 	const selectedProject = projects.find((project) => {
 		return project.id === parseInt(projectId);
 	});
-	console.log(selectedProject);
 	if (selectedProject) {
 		return (
 			<container id='active-project' className={selectedProject.category}>
 				<section id='active-project-content'>
 					<img className='active-project-image' src={selectedProject.thumbnail} />
-					<section id='active-project-description' dangerouslySetInnerHTML={selectedProject.content}></section>
+					<section id='active-project-description'>
+						<a onClick={handleClose}>
+							<svg id='close-button' xmlns="http://www.w3.org/2000/svg" 
+								width="48" 
+								height="48" 
+								viewBox="0 0 24 24" 
+								fill="none" 
+								stroke="currentColor" 
+								stroke-width="2" 
+								stroke-linecap="round" 
+								stroke-linejoin="round" 
+								class="feather feather-x-circle">
+								<circle cx="12" cy="12" r="10"/>
+								<line x1="15" y1="9" x2="9" y2="15"/>
+								<line x1="9" y1="9" x2="15" y2="15"/>
+							</svg>
+						</a>
+						<h2 id='active-project-title'>{selectedProject.title}</h2>
+						<hr />
+						{/* this html comes from WP_REST_API so it should be safe? */}
+						<section dangerouslySetInnerHTML={selectedProject.content}></section>
+						<a className={`learn-more-button ${selectedProject.category}`} href={selectedProject.link}>Learn More</a>
+					</section>
 				</section>
 			</container>
 		);
@@ -159,7 +182,16 @@ export default function ProjectsArchive() {
 			<section id='category-list'>
 				{categoriesList}
 			</section>
-			{activeProjectId !== null && <ActiveProject key={activeProjectId} projects={projects} projectId={activeProjectId} />}
+			{
+				activeProjectId !== null && 
+				<ActiveProject 
+					ref={activeProjectContainer} 
+					key={activeProjectId} 
+					projects={projects} 
+					projectId={activeProjectId}
+					handleClose={handleActiveProjectClose}
+				/>
+			}
 			<div id='projects-grid'>
 				{projectsList}
 			</div>
