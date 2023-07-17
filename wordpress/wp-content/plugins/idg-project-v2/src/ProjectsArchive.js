@@ -1,5 +1,20 @@
 import { useState, useEffect } from '@wordpress/element';
 
+// TODO: extract categories to Category component.
+// needs to grab category names from CPT taxonomy meta,
+// needs to grab excerpt/summary info from CPT for category detail component
+const Categories = {
+	'k12': 'K-12',
+	'collegiate': 'Collegiate',
+	'cultural-faith': 'Cultural/Faith',
+	'civic': 'Civic',
+	'commercial': 'Commercial',
+};
+
+const CategoryDisplay = () => {
+	return (<h1>Categories here!</h1>);
+}
+
 // TODO: implement scroll to auto scroll to active project dive on rerender.
 // need to research
 
@@ -42,13 +57,6 @@ const ActiveProject = ({projects, projectId, handleClose}) => {
 };
 
 export default function ProjectsArchive() {
-	const Categories = {
-		'k12': 'K-12',
-		'collegiate': 'Collegiate',
-		'cultural-faith': 'Cultural/Faith',
-		'civic': 'Civic',
-		'commercial': 'Commercial',
-	};
 
 	const [projects, setProjects] = useState([]);
 	const [category, setCategory] = useState('all');
@@ -172,14 +180,19 @@ export default function ProjectsArchive() {
 
 	return (
 		<div>
+			<h1>Categories in dev!</h1>
+			<CategoryDisplay />
 			<h1>Projects</h1>
+			{
+				category !== 'all' &&
+				<ActiveCategory category={category} />
+			}
 			<section id='category-list'>
 				{categoriesList}
 			</section>
 			{
 				activeProjectId !== null && 
 				<ActiveProject 
-					ref={activeProjectContainer} 
 					key={activeProjectId} 
 					projects={projects} 
 					projectId={activeProjectId}

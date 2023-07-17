@@ -152,6 +152,7 @@ container#active-project {
 
 #close-button {
 	color: white;
+	align-self: flex-end;
 }
 
 hr {
