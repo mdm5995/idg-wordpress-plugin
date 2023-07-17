@@ -13,8 +13,8 @@ const ActiveProject = ({projects, projectId, handleClose}) => {
 				<section id='active-project-content'>
 					<img className='active-project-image' src={selectedProject.thumbnail} />
 					<section id='active-project-description'>
-						<a onClick={handleClose}>
-							<svg id='close-button' xmlns="http://www.w3.org/2000/svg" 
+						<a id='close-button' onClick={handleClose}>
+							<svg xmlns="http://www.w3.org/2000/svg" 
 								width="48" 
 								height="48" 
 								viewBox="0 0 24 24" 
@@ -23,10 +23,9 @@ const ActiveProject = ({projects, projectId, handleClose}) => {
 								stroke-width="2" 
 								stroke-linecap="round" 
 								stroke-linejoin="round" 
-								class="feather feather-x-circle">
-								<circle cx="12" cy="12" r="10"/>
-								<line x1="15" y1="9" x2="9" y2="15"/>
-								<line x1="9" y1="9" x2="15" y2="15"/>
+								class="feather feather-x">
+								<line x1="18" y1="6" x2="6" y2="18"/>
+								<line x1="6" y1="6" x2="18" y2="18"/>
 							</svg>
 						</a>
 						<h2 id='active-project-title'>{selectedProject.title}</h2>
