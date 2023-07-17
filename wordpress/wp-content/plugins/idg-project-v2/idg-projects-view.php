@@ -22,86 +22,84 @@ function register_custom_project_post_type() {
 		'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt'),
 		/* 'template' => array( TODO: add array of blocks for default template!! ) */ 
 	);
+	register_post_type('projects', $post_type_args);
 	$taxonomy_args = array(
 		'public' => true,
 		'hierarchical' => true,
 		'show_in_rest' => true,
 	);
-	register_post_type('projects', $post_type_args);
 	register_taxonomy('project_categories', 'projects', $taxonomy_args);
 }
 add_action( 'init', 'register_custom_project_post_type' );
 
 // BEGIN CUSTOM FIELD FOR CATEGORY IMAGE //
 
-// add custom field for images on project categories
-function add_project_categories_image_field($term_id) {
-    if (isset($_POST['project_categories_image'])) {
-        $image = $_POST['project_categories_image'];
-        add_term_meta($term_id, 'project_categories_image', $image, true);
-    }
-}
-add_action('created_project_categories', 'add_project_categories_image_field', 10, 1);
-add_action('edited_project_categories', 'add_project_categories_image_field', 10, 1);
-
-// enqueue the media browser in admin screen
-function load_media_browser() {
-    wp_enqueue_media();
-}
-add_action('admin_enqueue_scripts', 'load_media_browser');
-
-// add the extra form field in the edit/add screens
-function display_project_categories_image_field($taxonomy) { ?>
-	<div class="form-field">
-		<label for="project_categories_image"><?php _e('Project Category Image', 'text-domain'); ?></label>
-		<input type="hidden" name="project_categories_image" id="project_categories_image" value="">
-		<img id="project_categories_image_preview" src="" style="max-width: 100px;">
-		<button id="project_categories_image_upload" class="button"><?php _e('Upload Image', 'text-domain'); ?></button>
-		<button id="project_categories_image_remove" class="button"><?php _e('Remove Image', 'text-domain'); ?></button>
+// First, create the custom meta field:
+function add_project_category_image($taxonomy) { ?>
+	<div class='form-field term-group'>
+		<label for=''>Upload Image</label>
+		<input type='text' name='txt_upload_image' id='txt_upload_image' value=''></input>
+		<input type='button' id='upload-image-button' class='button' 	value='Upload Image'></input>
 	</div>
-	<script>
-    jQuery(document).ready(function($) {
-			var customUploader;
-			
-			// Upload button
-			$('#project_categories_image_upload').click(function(e) {
-				e.preventDefault();
-				
-				// If the uploader object has already been created, reopen the dialog
-				if (customUploader) {
-					customUploader.open();
-					return;
-				}
-				
-				// Create the media uploader
-				customUploader = wp.media({
-					title: 'Upload Image',
-					button: { text: 'Use Image' },
-					multiple: false
-				});
-					
-				// When an image is selected, set it as the value of the field
-				customUploader.on('select', function() {
-					var attachment = customUploader.state().get('selection').first().toJSON();
-					$('#project_categories_image').val(attachment.url);
-					$('#project_categories_image_preview').attr('src', attachment.url);
-				});
-				
-				// Open the media uploader
-				customUploader.open();
-			});
-			
-			// Remove button
-			$('#project_categories_image_remove').click(function(e) {
-				e.preventDefault();
-				$('#project_categories_image').val('');
-				$('#project_categories_image_preview').attr('src', '');
-			});
-    });
-	</script>
-<?php }
-add_action('project_categories_add_form_fields', 'display_project_categories_image_field', 10, 1);
+<?php };
+add_action('project_categories_add_form_fields', 'add_project_category_image', 10, 2);
 
+// Then save the meta value:
+function save_project_category_image($term_id, $tt_id) {
+	if (isset($_POST['txt_upload_image']) && '' !== $_POST['txt_upload_image']) {
+		$group = esc_url($_POST['txt_upload_image']);
+		add_term_meta($term_id, 'term_image', $group, true);
+	}
+};
+add_action('create_project_categories', 'save_project_category_image', 10, 2);
+
+// We repeat these steps for the edit screen of the project_category:
+
+// create the field on the edit screen:
+function edit_image_upload($term, $taxonomy) {
+
+	// get the current group value:
+	$txt_upload_image = get_term_meta($term->term_id, 'term_image', true)
+	?> 
+	<div class='form-field term-group'>
+		<label>Upload Image</label>
+		<input type='text' name='txt_upload_image' id='txt_upload_image' value='<?php echo $txt_upload_image ?>'></input>
+		<input type='button' id='upload-image-button' class='button' value='Upload Image' />
+	</div>
+<? };
+add_action('project_categories_edit_form_fields', 'edit_image_upload', 10, 2);
+
+// save the value to the term meta field:
+function update_project_category_image($term_id, $tt_id) {
+	if (isset($_POST['txt_upload_image']) && '' !== $_POST['txt_upload_image']) {
+		$group = esc_url($_POST['txt_upload_image']);
+		update_term_meta($term_id, 'term_image', $group, true);
+	};
+};
+add_action('edited_project_categories', 'update_project_category_image', 10, 2);
+
+// Finally, enqueue the JS for the wp media uploader itself:
+function enqueue_media_uploader() {
+	global $typenow;
+	// make sure the page relates to projects
+	// not the best but OK enough?
+	if ($typenow == 'projects') {
+		wp_enqueue_media();
+
+		$script_url = plugins_url('project-category-image-uploader.js', __FILE__);
+		wp_register_script('project_category_image_uploader', $script_url, array('jquery'));
+		wp_enqueue_script('project_category_image_uploader');
+	};
+};
+add_action('admin_enqueue_scripts', 'enqueue_media_uploader');
+
+// Add the custom field data to the REST API response
+function add_project_category_image_to_api($post) {
+    $image_url = get_term_meta($post['project_categories'][0], 'term_image', true);
+    $post['project_category_image'] = $image_url;
+    return $post;
+}
+add_filter('rest_prepare_projects', 'add_project_category_image_to_api');
 
 // END CUSTOM FIELD FOR CATEGORY IMAGE //
 
