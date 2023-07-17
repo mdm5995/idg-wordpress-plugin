@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "name": "idg-project-plugin",
+  "version": "0.0.1",
+  "main": "src/ProjectPage.jsx",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@wordpress/scripts": "^26.8.0"
+  },
+  "dependencies": {
+    "@wordpress/element": "^5.14.0"
+  }
+}
