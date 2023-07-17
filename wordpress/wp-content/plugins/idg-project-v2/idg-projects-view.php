@@ -18,7 +18,7 @@ function register_custom_project_post_type() {
 		'menu_position' => 20,
 		'menu_icon' => 'dashicons-portfolio',
 		'has_archive' => true,
-		'taxonomy' => 'project-categories',
+		'taxonomy' => 'project_categories',
 		'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt'),
 		/* 'template' => array( TODO: add array of blocks for default template!! ) */ 
 	);
@@ -28,9 +28,8 @@ function register_custom_project_post_type() {
 		'show_in_rest' => true,
 	);
 	register_post_type('projects', $post_type_args);
-	register_taxonomy('project-categories', 'projects', $taxonomy_args);
+	register_taxonomy('project_categories', 'projects', $taxonomy_args);
 }
-
 add_action( 'init', 'register_custom_project_post_type' );
 
 // BEGIN CUSTOM FIELD FOR CATEGORY IMAGE //
@@ -116,7 +115,7 @@ function projects_archive_template($template) {
     }
     return $template;
 }
-add_filter('template_include', 'custom_post_type_archive_template');
+add_filter('template_include', 'projects_archive_template');
 
 // Enqueue scripts on the archive template
 function idg_projects_page_enqueue_scripts() {
