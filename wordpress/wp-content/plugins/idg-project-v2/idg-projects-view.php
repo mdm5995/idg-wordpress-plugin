@@ -34,49 +34,36 @@ add_action( 'init', 'register_custom_project_post_type' );
 
 // BEGIN CUSTOM FIELD FOR CATEGORY IMAGE //
 
-// First, create the custom meta field:
-function add_project_category_image($taxonomy) { ?>
-	<div class='form-field term-group'>
-		<label for=''>Upload Image</label>
-		<input type='text' name='txt_upload_image' id='txt_upload_image' value=''></input>
-		<input type='button' id='upload-image-button' class='button' 	value='Upload Image'></input>
+function idg_add_term_fields($taxonomy) {
+	// Check if we are editing an existing term or adding a new one.
+	$term_id = isset($_GET['tag_ID']) ? $_GET['tag_ID'] : 0;
+	$image_id = $term_id ? get_term_meta($term_id, 'idg_image', true) : 0;
+
+	?>
+	<div class='form-field'>
+		<label>Category Image</label>
+		<?php if ($image = wp_get_attachment_image_url($image_id, 'medium')): ?>
+			<a href='#' class='button idg-upload'>
+				<img src='<?php echo esc_url($image) ?>' />
+			</a>
+			<a href='#' class='button idg-remove'>Remove image</a>
+			<input type='hidden' name='idg_image' value='<?php echo absint($image_id) ?>'>
+		<?php else: ?>
+			<a href='#' class='button idg-upload'>Upload Image</a>
+			<a href='#' class='button idg-remove' style='display:none'>Remove image</a>
+			<input type='hidden' name='idg_image' value=''></input>
+		<?php endif; ?>
 	</div>
-<?php };
-add_action('project_categories_add_form_fields', 'add_project_category_image', 10, 2);
-
-// Then save the meta value:
-function save_project_category_image($term_id, $tt_id) {
-	if (isset($_POST['txt_upload_image']) && '' !== $_POST['txt_upload_image']) {
-		$group = esc_url($_POST['txt_upload_image']);
-		add_term_meta($term_id, 'term_image', $group, true);
-	}
+	<?php
 };
-add_action('create_project_categories', 'save_project_category_image', 10, 2);
+add_action('project_categories_add_form_fields', 'idg_add_term_fields');
+add_action('project_categories_edit_form', 'idg_add_term_fields');
 
-// We repeat these steps for the edit screen of the project_category:
-
-// create the field on the edit screen:
-function edit_image_upload($term, $taxonomy) {
-
-	// get the current group value:
-	$txt_upload_image = get_term_meta($term->term_id, 'term_image', true)
-	?> 
-	<div class='form-field term-group'>
-		<label>Upload Image</label>
-		<input type='text' name='txt_upload_image' id='txt_upload_image' value='<?php echo $txt_upload_image ?>'></input>
-		<input type='button' id='upload-image-button' class='button' value='Upload Image' />
-	</div>
-<? };
-add_action('project_categories_edit_form_fields', 'edit_image_upload', 10, 2);
-
-// save the value to the term meta field:
-function update_project_category_image($term_id, $tt_id) {
-	if (isset($_POST['txt_upload_image']) && '' !== $_POST['txt_upload_image']) {
-		$group = esc_url($_POST['txt_upload_image']);
-		update_term_meta($term_id, 'term_image', $group, true);
-	};
+function idg_save_term_fields($term_id) {
+	update_term_meta($term_id, 'idg_image', absint($_POST['idg_image']));
 };
-add_action('edited_project_categories', 'update_project_category_image', 10, 2);
+add_action('created_project_categories', 'idg_save_term_fields');
+add_action('edited_project_categories', 'idg_save_term_fields');
 
 // Finally, enqueue the JS for the wp media uploader itself:
 function enqueue_media_uploader() {
@@ -94,12 +81,18 @@ function enqueue_media_uploader() {
 add_action('admin_enqueue_scripts', 'enqueue_media_uploader');
 
 // Add the custom field data to the REST API response
-function add_project_category_image_to_api($post) {
-    $image_url = get_term_meta($post['project_categories'][0], 'term_image', true);
-    $post['project_category_image'] = $image_url;
-    return $post;
+function idg_add_custom_term_meta_to_api($response) {
+   // $image_id = get_term_meta($term['id'], 'idg_image', true);
+   // $term['idg_image'] = absint($image_id);
+   // return $term;
+    $data = $response->get_data();
+    $term_id = $data['id'];
+    $image_id = get_term_meta($term_id, 'idg_image', true);
+    $data['idg_image'] = absint($image_id);
+    $response->set_data($data);
+    return $response;
 }
-add_filter('rest_prepare_projects', 'add_project_category_image_to_api');
+add_filter('rest_prepare_project_categories', 'idg_add_custom_term_meta_to_api');
 
 // END CUSTOM FIELD FOR CATEGORY IMAGE //
 
