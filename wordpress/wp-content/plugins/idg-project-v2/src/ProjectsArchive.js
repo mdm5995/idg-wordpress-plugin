@@ -15,7 +15,7 @@ const CategoryDisplay = () => {
 	return (<h1>Categories here!</h1>);
 }
 
-// TODO: implement scroll to auto scroll to active project dive on rerender.
+// TODO: implement scroll to auto scroll to active project div on rerender.
 // need to research
 
 const ActiveProject = ({projects, projectId, handleClose}) => {
