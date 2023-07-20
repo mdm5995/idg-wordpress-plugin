@@ -1,15 +1,6 @@
 import { useState, useEffect } from '@wordpress/element';
 
-// TODO: extract categories to Category component.
-// needs to grab category names from CPT taxonomy meta,
-// needs to grab excerpt/summary info from CPT for category detail component
-const Categories = {
-	'k12': 'K-12',
-	'collegiate': 'Collegiate',
-	'cultural-faith': 'Cultural/Faith',
-	'civic': 'Civic',
-	'commercial': 'Commercial',
-};
+// TODO: create API call to grab image src from image id
 
 const CategoryDisplay = ({categories, handleClick}) => {
 
@@ -23,8 +14,29 @@ const CategoryDisplay = ({categories, handleClick}) => {
 	return categoriesList;
 }
 
-const ActiveCategory = () => {
-	return <p>This is the active category!</p>;
+// This displays the currently selected category, if any.
+// Requires the following data from 'categories' state array:
+// Category name
+// Category description
+// Category link
+// this needs to be retrieved from DB using imageId
+//// can write helper function probably
+	// Category image src
+
+const ActiveCategory = ({name, description, link, imageSrc, slug}) => {
+	return (
+		<container id='active-category' class={slug}>
+				<section id='active-category-content'>
+					<section id='active-category-description'>
+						<h2>{name}</h2>
+						<hr />
+						<p>{description}</p>
+						<a class={`learn-more-button ${slug}`} href={link}>Learn more</a>
+					</section>
+					<img src={imageSrc} />
+				</section>
+		</container>
+	);
 }
 
 // TODO: implement scroll to auto scroll to active project div on rerender.
@@ -70,8 +82,8 @@ const ActiveProject = ({projects, projectId, handleClose}) => {
 
 export default function ProjectsArchive() {
 
-	const [projects, setProjects] = useState([]);
-	const [category, setCategory] = useState('all');
+	const [projects, setProjects] = useState([]); // This is a project object, see getProjectsData() for shape.
+	const [category, setCategory] = useState('all'); // This is a 'category object'. see getCategoryData() for shape.
 	const [categories, setCategories] = useState([]);
 	const [activeProjectId, setActiveProjectId] = useState(null);
 
@@ -118,23 +130,33 @@ export default function ProjectsArchive() {
 	}
 
 	const getCategoryData = () => {
-		const categoryArray = fetch('https://localhost/wp-json/wp/v2/project_categories?_embed')
+		return fetch('https://localhost/wp-json/wp/v2/project_categories?_embed')
 			.then((response) => response.json())
-			.then((json) => {
-				const categoryArray = json.map((category) => {
-					const categoryObject = {
-						id: category.id,
-						slug: category.slug,
-						name: category.name,
-						description: category.description,
-						link: category.link,
-						imageId: category['idg_image'],
-					};
-					return categoryObject;
+			.then((categoryObjectsJson) => {
+				const categoryPromises = categoryObjectsJson.map((category) => {
+					return fetch('https://localhost/wp-json/wp/v2/media/' + category['idg_image'])
+						.then((response) => response.json())
+						.then((mediaJson) => mediaJson.source_url);
 				});
-				return categoryArray;
-			}).catch((e) => console.error('error!' + e));
-		return categoryArray;
+
+				return Promise.all(categoryPromises).then((imageUrls) => {
+					const categoryArray = categoryObjectsJson.map((category, index) => {
+						const categoryObject = {
+							id: category.id,
+							slug: category.slug,
+							name: category.name,
+							description: category.description,
+							link: category.link,
+							imageId: category['idg_image'],
+							imageSrc: imageUrls[index],
+						};
+						return categoryObject;
+					});
+					return categoryArray;
+				})
+				.catch((e) => console.error('Error during media API calls:', e));
+			})
+			.catch((e) => console.error('Error during category API call:' + e));
 	}
 	
 	// API call for project categories. Should only run once.
@@ -228,7 +250,13 @@ export default function ProjectsArchive() {
 			<h1>Projects</h1>
 			{
 				category !== 'all' &&
-				<ActiveCategory category={category} />
+				<ActiveCategory 
+					name={category.name} 
+					description={category.description} 
+					imageSrc={category.imageSrc} 
+					link={category.link} 
+					slug={category.slug}
+				/>
 			}
 			<section id='category-list'>
 				{<CategoryDisplay categories={categories} handleClick={handleCategoryChange}/>}

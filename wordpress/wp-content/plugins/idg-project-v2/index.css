@@ -143,6 +143,7 @@ container#active-project {
 }
 
 .learn-more-button {
+	display: inline-block;
 	font-weight: bold;
 	text-decoration: none;
 	padding: 1rem 2rem;
@@ -162,4 +163,35 @@ hr {
   height: 4px;
   border: none;
   margin: 1rem 0 0;
+}
+
+container#active-category {
+	display: block;
+}
+
+#active-category-content {
+	display: flex;
+	align-items: stretch;
+	justify-content: center;
+	color: white;
+	flex-flow: row nowrap;
+	gap: 3rem;
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 0 3rem;
+}
+
+#active-category-content img {
+	object-fit: cover;
+}
+
+#active-category-description {
+	text-align: right;
+	padding: 3rem 0;
+}
+
+#active-category-description h2 {
+	font-size: 3rem;
+	font-weight: bold;
+	margin: 0;
 }
