@@ -62,7 +62,7 @@ add_action('project_categories_edit_form', 'idg_add_term_fields');
 function idg_save_term_fields($term_id) {
 	update_term_meta($term_id, 'idg_image', absint($_POST['idg_image']));
 };
-add_action('created_project_categories', 'idg_save_term_fields');
+add_action('create_project_categories', 'idg_save_term_fields');
 add_action('edited_project_categories', 'idg_save_term_fields');
 
 // Finally, enqueue the JS for the wp media uploader itself:
