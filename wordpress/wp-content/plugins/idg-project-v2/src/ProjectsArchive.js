@@ -23,6 +23,10 @@ const CategoryDisplay = ({categories, handleClick}) => {
 	return categoriesList;
 }
 
+const ActiveCategory = () => {
+	return <p>This is the active category!</p>;
+}
+
 // TODO: implement scroll to auto scroll to active project div on rerender.
 // need to research
 
@@ -72,8 +76,11 @@ export default function ProjectsArchive() {
 	const [activeProjectId, setActiveProjectId] = useState(null);
 
 	const handleCategoryChange = (event) => {
-		const newCategory = event.target.value;
-		const newCategoryButton = document.getElementById(newCategory);
+		// const newCategory = event.target.value;
+		const newCategory = categories.find((category) => {
+			return category.slug === event.target.value;
+		});
+		const newCategoryButton = document.getElementById(newCategory.slug);
 
 		if (category === 'all') {
 			newCategoryButton.classList.add('active');
@@ -81,14 +88,14 @@ export default function ProjectsArchive() {
 			return;
 		}
 
-		const oldCategoryButton = document.getElementById(category);
-		if (category === event.target.value) {
+		const oldCategoryButton = document.getElementById(category.slug);
+		if (category.slug === event.target.value) {
 			oldCategoryButton.classList.remove('active');
 			setCategory('all');
 			return;
 		}
 
-		if (category !== event.target.value) {
+		if (category.slug !== event.target.value) {
 			oldCategoryButton.classList.remove('active');
 			newCategoryButton.classList.add('active');
 			setCategory(newCategory);
@@ -109,15 +116,6 @@ export default function ProjectsArchive() {
 		clearHiddenFigures();
 		setActiveProjectId(null);
 	}
-
-	const categoriesList = Object.keys(Categories).map((key) => {
-		return (
-			<button key={key} value={key} id={key} onClick={handleCategoryChange}>
-				{Categories[key]}
-			</button>
-		);
-	});
-
 
 	const getCategoryData = () => {
 		const categoryArray = fetch('https://localhost/wp-json/wp/v2/project_categories?_embed')
@@ -218,7 +216,7 @@ export default function ProjectsArchive() {
 
 	const projectsList = projects.map((project) => {
 			return (
-			<figure projectId={project.id} onClick={handleProjectClick} className={`project-item ${project.categoryId}`}>
+			<figure projectId={project.id} onClick={handleProjectClick} className={`project-item ${project.category}`}>
 				<img src={project.thumbnail}/>
 				<figcaption className='project-title hidden'>{project.title}</figcaption>
 			</figure>
@@ -227,15 +225,13 @@ export default function ProjectsArchive() {
 
 	return (
 		<div>
-			<h1>Categories in dev!</h1>
 			<h1>Projects</h1>
 			{
 				category !== 'all' &&
 				<ActiveCategory category={category} />
 			}
 			<section id='category-list'>
-				{/*categoriesList*/}
-			{<CategoryDisplay categories={categories} handleClick={handleCategoryChange}/>}
+				{<CategoryDisplay categories={categories} handleClick={handleCategoryChange}/>}
 			</section>
 			{
 				activeProjectId !== null && 
