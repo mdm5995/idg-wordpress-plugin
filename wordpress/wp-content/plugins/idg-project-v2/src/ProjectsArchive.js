@@ -11,8 +11,16 @@ const Categories = {
 	'commercial': 'Commercial',
 };
 
-const CategoryDisplay = () => {
-	return (<h1>Categories here!</h1>);
+const CategoryDisplay = ({categories, handleClick}) => {
+
+	const categoriesList = categories.map((category) => {
+		return (
+			<button key={category['id']} value={category['slug']} id={category['slug']} onClick={handleClick}>
+				{category['name']}
+			</button>
+		);
+	});
+	return categoriesList;
 }
 
 // TODO: implement scroll to auto scroll to active project div on rerender.
@@ -60,6 +68,7 @@ export default function ProjectsArchive() {
 
 	const [projects, setProjects] = useState([]);
 	const [category, setCategory] = useState('all');
+	const [categories, setCategories] = useState([]);
 	const [activeProjectId, setActiveProjectId] = useState(null);
 
 	const handleCategoryChange = (event) => {
@@ -110,6 +119,43 @@ export default function ProjectsArchive() {
 	});
 
 
+	const getCategoryData = () => {
+		const categoryArray = fetch('https://localhost/wp-json/wp/v2/project_categories?_embed')
+			.then((response) => response.json())
+			.then((json) => {
+				const categoryArray = json.map((category) => {
+					const categoryObject = {
+						id: category.id,
+						slug: category.slug,
+						name: category.name,
+						description: category.description,
+						link: category.link,
+						imageId: category['idg_image'],
+					};
+					return categoryObject;
+				});
+				return categoryArray;
+			}).catch((e) => console.error('error!' + e));
+		return categoryArray;
+	}
+	
+	// API call for project categories. Should only run once.
+	useEffect(() => {
+		let ignore = false;
+		setCategories([]);
+		// setActiveProjectId(null);
+		getCategoryData().then(
+			(categoryArray) => {
+				if (!ignore) {
+					setCategories(categoryArray);
+				};
+			}
+		);
+		return () => {
+			ignore = true;
+		};
+	}, []);
+
 	const getProjectsData = () => {
 		const projectsArray = fetch('https://localhost/wp-json/wp/v2/projects?_embed')
 			.then((response) => response.json())
@@ -122,7 +168,8 @@ export default function ProjectsArchive() {
 						excerpt: {__html: project.excerpt.rendered},
 						link: project.link,
 						thumbnail: project['_embedded']['wp:featuredmedia'][0].source_url,
-						category: project['_embedded']['wp:term'][0][0].slug
+						category: project['_embedded']['wp:term'][0][0].slug,
+						categoryId: project['project_categories'][0],
 					};
 					return projectObject;
 				});
@@ -143,7 +190,7 @@ export default function ProjectsArchive() {
 					if (category === 'all') {
 						return true;
 					}
-					if (category === project.category) {
+					if (category.id === project.categoryId) {
 						return true;
 					}
 					return false;
@@ -171,7 +218,7 @@ export default function ProjectsArchive() {
 
 	const projectsList = projects.map((project) => {
 			return (
-			<figure projectId={project.id} onClick={handleProjectClick} className={`project-item ${project.category}`}>
+			<figure projectId={project.id} onClick={handleProjectClick} className={`project-item ${project.categoryId}`}>
 				<img src={project.thumbnail}/>
 				<figcaption className='project-title hidden'>{project.title}</figcaption>
 			</figure>
@@ -181,14 +228,14 @@ export default function ProjectsArchive() {
 	return (
 		<div>
 			<h1>Categories in dev!</h1>
-			<CategoryDisplay />
 			<h1>Projects</h1>
 			{
 				category !== 'all' &&
 				<ActiveCategory category={category} />
 			}
 			<section id='category-list'>
-				{categoriesList}
+				{/*categoriesList*/}
+			{<CategoryDisplay categories={categories} handleClick={handleCategoryChange}/>}
 			</section>
 			{
 				activeProjectId !== null && 
