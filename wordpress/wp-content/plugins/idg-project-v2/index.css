@@ -10,7 +10,7 @@
   justify-content: space-between;
   align-items: flex-end;
   margin: 0 auto;
-  max-width: 1296px;
+  max-width: 81rem;
 }
 
 #category-list button {
@@ -51,11 +51,11 @@ button#commercial {
 
 #projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 400px);
-	grid-auto-rows: 316px;
+  grid-template-columns: repeat(3, 25rem);
+	grid-auto-rows: 19.75rem;
   gap: 3rem;
   margin: 0 auto;
-  max-width: 1296px;
+  max-width: 81rem;
   margin-top: 3rem;
 	line-height: 0;
 }
@@ -66,37 +66,41 @@ button#commercial {
 	object-fit: cover;
 }
 
+.k12, .collegiate, .cultural-faith, .civic, .commercial {
+	border: 0.25rem solid;
+}
+
 .k12 {
 	color: #76bb21;
-	border: 4px solid #76bb21;
+	border-color: #76bb21;
 	background: rgb(79,142,1);
 	background: linear-gradient(180deg, rgba(79,142,1,1) 0%, rgba(118,187,33,1) 100%); 
 }
 
 .collegiate {
 	color: #315AB4;
-	border: 4px solid #315AB4;
+	border-color: #315AB4;
 	background: rgb(6,52,153);
 	background: linear-gradient(180deg, rgba(6,52,153,1) 0%, rgba(49,90,180,1) 100%); 
 }
 
 .cultural-faith {
 	color: #E2A13E;
-	border: 4px solid #E2A13E;
+	border-color: #E2A13E;
   background: rgb(199,123,6);
   background: linear-gradient(180deg, rgba(199,123,6,1) 0%, rgba(226,161,62,1) 100%);
 }
 
 .civic {
 	color: #8C1DB9;
-	border: 4px solid #8C1DB9;
+	border-color: #8C1DB9;
 	background: rgb(91,7,125);
 	background: linear-gradient(180deg, rgba(91,7,125,1) 0%, rgba(140,29,185,1) 100%); 
 }
 
 .commercial {
 	color: #BC0F05;
-	border: 4px solid #BC0F05;
+	border-color: #BC0F05;
 	background: rgb(117,10,4);
 	background: linear-gradient(180deg, rgba(117,10,4,1) 0%, rgba(188,15,5,1) 100%); 
 }
@@ -106,7 +110,7 @@ button#commercial {
 }
 
 #active-project-content {
-  max-width: 1296px;
+  max-width: 81rem;
   margin: 0 auto;
   padding: 3rem;
   color: white;
@@ -118,8 +122,8 @@ button#commercial {
 .active-project-image {
 	object-fit: cover;
 	/* TODO: change to max-width (maybe) */
-	width: 600px;
-	height: 450px;
+	width: 37.5rem;
+	height: 28.125rem;
 	/* END TODO */
 }
 
@@ -160,7 +164,7 @@ container#active-project {
 hr {
   background-color: white;
   width: 100%;
-  height: 4px;
+  height: 0.25rem;
   border: none;
   margin: 1rem 0 0;
 }
@@ -176,9 +180,13 @@ container#active-category {
 	color: white;
 	flex-flow: row nowrap;
 	gap: 3rem;
-	max-width: 1440px;
+	max-width: 90rem;
 	margin: 0 auto;
 	padding: 0 3rem;
+}
+
+#active-category-content > * {
+	flex: 1;
 }
 
 #active-category-content img {
