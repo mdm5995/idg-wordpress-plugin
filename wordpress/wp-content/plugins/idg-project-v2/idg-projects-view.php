@@ -110,6 +110,17 @@ add_filter('template_include', 'projects_archive_template');
 
 // Enqueue scripts on the archive template
 function idg_projects_page_enqueue_scripts() {
+	if (get_post_type() == 'projects') {
+		// Enqueue stylesheet
+		wp_enqueue_style(
+			'idg-project-page-styles',
+			plugins_url('/index.css', __FILE__),
+			array(),
+			'1.0',
+			false
+		);
+	}
+
 	if (is_post_type_archive('projects')) {
 
 		// Enqueue your React component script here

@@ -203,3 +203,24 @@ container#active-category {
 	font-weight: bold;
 	margin: 0;
 }
+
+/* Begin Project Page Template Styles */
+
+.idg-project-learn-section.alignfull {
+	justify-content: space-between;
+	max-width: 81rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.idg-project-info-section {
+	align-self: flex-start;
+  border: 4px solid #72bb21;
+  padding: 1rem;
+}
+
+.idg-project-info-list {
+  list-style-type: none;
+  padding: 0;
+}
+/* End Project Page Template Styles */
