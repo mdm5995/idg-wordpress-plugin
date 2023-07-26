@@ -1,9 +1,8 @@
 import { useState, useEffect } from '@wordpress/element';
 
-// TODO: create API call to grab image src from image id
-
+// TODO: create some order functionality
+// need to create a new custom term meta for 'sort order' in PHP
 const CategoryDisplay = ({categories, handleClick}) => {
-
 	const categoriesList = categories.map((category) => {
 		return (
 			<button key={category['id']} value={category['slug']} id={category['slug']} onClick={handleClick}>
