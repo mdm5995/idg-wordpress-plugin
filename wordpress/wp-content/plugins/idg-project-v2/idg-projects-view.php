@@ -20,7 +20,120 @@ function register_custom_project_post_type() {
 		'has_archive' => true,
 		'taxonomy' => 'project_categories',
 		'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt'),
-		/* 'template' => array( TODO: add array of blocks for default template!! ) */ 
+		'template' => array(
+			array(
+				'core/heading',
+				array(
+					'level' => 1,
+					'className' => 'idg-project-title',
+					'placeholder' => 'Enter project title',
+				),
+			),
+			array(
+				'core/image',
+				array(),
+			),
+			array(
+				'core/columns',
+				array(
+					'align' => 'full',
+					'className' => 'idg-project-learn-section',
+				),
+				array(
+					array(
+						'core/column',
+						array(
+							'width' => '50%',
+							'layout' => array(
+								'type' => 'default'
+							),
+						),
+						array(
+							array(
+								'core/heading',
+								array(
+									'level' => 2,
+									'placeholder' => 'Enter project subtitle',
+								),
+							),
+							array(
+								'core/separator',
+								array(
+									'style' => array(
+										'color' => array(
+											'background' => '#76bb21',
+										),
+										'className' => 'is-style-default idg-project-separator',
+									),
+								),
+							),
+							array(
+								'core/paragraph',
+								array(
+									'placeholder' => 'Enter project body copy',
+								),
+							),
+						),
+					),
+					array(
+						'core/column',
+						array(
+							'width' => '35%',
+							'className' => 'idg-project-info-section',
+							'layout' => array(
+								'type' => 'default'
+							),
+						),
+						array(
+							array(
+								'core/heading',
+								array(
+									'level' => 3,
+									'className' => 'idg-project-info-header',
+									'content' => 'Project Information',
+								),
+							),
+							array(
+								'core/separator',
+								array(
+									'style' => array(
+										'color' => array(
+											'background' => '#76bb21',
+										),
+										'className' => 'is-style-default idg-project-separator',
+									),
+								),
+							),
+							array(
+								'core/paragraph',
+								array(
+									'placeholder' => 'Enter project info here',
+								),
+							),
+						),
+					),
+				),
+			),
+			array(
+				'core/heading',
+				array(
+					'level' => 2,
+					'textAlign' => 'center',
+					'content' => 'Gallery',
+				),
+			),
+			array(
+				'core/separator',
+				array(
+					'style' => array(
+						'color' => array(
+							'background' => '#76bb21',
+						),
+						'className' => 'is-style-default idg-project-separator',
+					),
+				),
+			),
+		),
 	);
 	register_post_type('projects', $post_type_args);
 	$taxonomy_args = array(
