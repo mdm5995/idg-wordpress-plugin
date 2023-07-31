@@ -1,0 +1,11 @@
+import editMatterportBlock from './edit.js'
+import saveMatterportBlock from './save.js'
+
+// IDG Matterport Block
+registerBlockType(
+	'idg/matterport-block',
+	{
+		edit: editMatterportBlock,
+		save: saveMatterportBlock
+	},
+);

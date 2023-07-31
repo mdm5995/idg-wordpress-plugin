@@ -1,0 +1,11 @@
+import editGalleryBlock from './edit.js'
+import saveGalleryBlock from './save.js'
+
+// IDG Matterport Block
+registerBlockType(
+	'idg/gallery-block',
+	{
+		edit: editGalleryBlock,
+		save: saveGalleryBlock
+	},
+);

@@ -257,3 +257,27 @@ function idg_projects_page_enqueue_scripts() {
 	}
 }
 add_action('wp_enqueue_scripts', 'idg_projects_page_enqueue_scripts');
+
+// Register Matterport block
+add_action('init', 'idg_blocks_register');
+function idg_blocks_register() {
+	register_block_type(__DIR__ . '/Blocks/MatterportBlock/block.json');
+	register_block_type(__DIR__ . '/Blocks/GalleryBlock/block.json');
+
+		/*
+	// load dependencies and version from @wordpress/scripts generated file
+	$asset_file = include(plugin_dir_path(__FILE__) . '/build/index.asset.php');
+
+	wp_register_script(
+		'idg-matterport-block-script',
+		plugins_url('build/index.js', __FILE__),
+		$asset_file['dependencies'],
+		$asset_file['version'],
+	);
+
+	register_block_type(
+		'idg/matterport-block',
+		array( 'editor_script' => 'idg-matterport-block-script' )
+	);
+		 * */
+};
