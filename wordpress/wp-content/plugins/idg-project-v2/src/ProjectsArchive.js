@@ -3,10 +3,10 @@ import { useState, useEffect } from '@wordpress/element';
 // TODO: create some order functionality
 // need to create a new custom term meta for 'sort order' in PHP
 // this might be scope creep -- can possibly launch without?
-const CategoryDisplay = ({categories, handleClick}) => {
+const CategoryDisplay = ({categories, handleClick, isDisabled}) => {
 	const categoriesList = categories.map((category) => {
 		return (
-			<button key={category['id']} value={category['slug']} id={category['slug']} onClick={handleClick}>
+			<button key={category['id']} disable={isDisabled} value={category['slug']} id={category['slug']} onClick={handleClick}>
 				{category['name']}
 			</button>
 		);
@@ -14,31 +14,47 @@ const CategoryDisplay = ({categories, handleClick}) => {
 	return categoriesList;
 }
 
-const ActiveCategory = ({name, description, link, imageSrc, slug}) => {
+const ActiveCategory = ({name, description, link, imageSrc, slug, dataClosing, onAnimationEnd}) => {
 	return (
-		<container id='active-category' class={slug}>
+		<div id='active-category' data-closing={dataClosing} onAnimationEnd={onAnimationEnd} className={slug}>
 				<section id='active-category-content'>
 					<section id='active-category-description'>
 						<h2>{name}</h2>
 						<hr />
 						<p>{description}</p>
-						<a class={`learn-more-button ${slug}`} href={link}>Learn more</a>
+						<a className={`learn-more-button ${slug}`} href={link}>Learn more</a>
 					</section>
 					<img src={imageSrc} />
 				</section>
-		</container>
+		</div>
 	);
+}
+
+const LoadingSpinner = () => {
+  return (
+    <div className="spinner-container">
+      <div className="loading-spinner">
+      </div>
+    </div>
+  );
 }
 
 // TODO: implement scroll to auto scroll to active project div on rerender.
 // need to research
-const ActiveProject = ({projects, projectId, handleClose}) => {
+const ActiveProject = ({projects, projectId, handleClose, onAnimationEnd, dataClosing}) => {
 	const selectedProject = projects.find((project) => {
 		return project.id === parseInt(projectId);
 	});
+
 	if (selectedProject) {
 		return (
-			<container id='active-project' className={selectedProject.category}>
+			<div 
+				key={projectId} 
+				id='active-project' 
+				className={selectedProject.category}
+				onAnimationEnd={onAnimationEnd}
+				data-closing={dataClosing}
+			>
 				<section id='active-project-content'>
 					<img className='active-project-image' src={selectedProject.thumbnail} />
 					<section id='active-project-description'>
@@ -52,7 +68,7 @@ const ActiveProject = ({projects, projectId, handleClose}) => {
 								stroke-width="2" 
 								stroke-linecap="round" 
 								stroke-linejoin="round" 
-								class="feather feather-x">
+								className="feather feather-x">
 								<line x1="18" y1="6" x2="6" y2="18"/>
 								<line x1="6" y1="6" x2="18" y2="18"/>
 							</svg>
@@ -64,7 +80,7 @@ const ActiveProject = ({projects, projectId, handleClose}) => {
 						<a className={`learn-more-button ${selectedProject.category}`} href={selectedProject.link}>Learn More</a>
 					</section>
 				</section>
-			</container>
+			</div>
 		);
 	};
 	return null;
@@ -76,27 +92,36 @@ export default function ProjectsArchive() {
 	const [category, setCategory] = useState('all'); // This is a 'category object'. see getCategoryData() for shape.
 	const [categories, setCategories] = useState([]);
 	const [activeProjectId, setActiveProjectId] = useState(null);
+	const [activeProjectState, setActiveProjectState] = useState('closed');
+	const [activeCategoryState, setActiveCategoryState] = useState('closed');
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleCategoryChange = (event) => {
-		// const newCategory = event.target.value;
 		const newCategory = categories.find((category) => {
 			return category.slug === event.target.value;
 		});
 		const newCategoryButton = document.getElementById(newCategory.slug);
 
+		// when there wasn't previously a category selected:
 		if (category === 'all') {
 			newCategoryButton.classList.add('active');
+			setActiveCategoryState('opening');
 			setCategory(newCategory);
 			return;
 		}
 
 		const oldCategoryButton = document.getElementById(category.slug);
+
+		// when the user clicks the currently active category button
 		if (category.slug === event.target.value) {
 			oldCategoryButton.classList.remove('active');
-			setCategory('all');
+			// this triggers animation
+			// when closing animation completes, category will be set to all
+			setActiveCategoryState('closing');
 			return;
 		}
 
+		// when there was a previously active category:
 		if (category.slug !== event.target.value) {
 			oldCategoryButton.classList.remove('active');
 			newCategoryButton.classList.add('active');
@@ -105,18 +130,29 @@ export default function ProjectsArchive() {
 		}
 	}
 
-	const clearHiddenFigures = () => {
-		const hiddenFigure = document.querySelector('figure.hidden');
-		if (hiddenFigure !== null) {
-			hiddenFigure.classList.remove('hidden');
+	// handles resetting category filtering
+	// once animation is complete
+	useEffect(() => {
+		if (activeCategoryState === 'closed') {
+			setCategory('all');
+		};
+	}, [setCategory, activeCategoryState])
+
+	// helper function to remove any previously hidden projects
+	// this is necessary because the ActiveProject has a class 'hidden' added 
+	// so it is hidden in the main projects grid
+	const clearHiddenProjects = () => {
+		const hiddenProject = document.querySelector('figure.hidden');
+		if (hiddenProject !== null) {
+			hiddenProject.classList.remove('hidden');
 		};
 
 		return;
 	}
 
 	const handleActiveProjectClose = (event) => {
-		clearHiddenFigures();
-		setActiveProjectId(null);
+		clearHiddenProjects();
+		setActiveProjectState('closing');
 	}
 
 	const getCategoryData = () => {
@@ -192,6 +228,7 @@ export default function ProjectsArchive() {
 	useEffect(() => {
 		let ignore = false;
 		setProjects([]);
+		setIsLoading(true);
 		setActiveProjectId(null);
 		getProjectsData()
 		.then((projectsArray) => {
@@ -205,6 +242,7 @@ export default function ProjectsArchive() {
 					}
 					return false;
 				}));
+				setIsLoading(false);
 			};
 		});
 		return () => {
@@ -214,8 +252,8 @@ export default function ProjectsArchive() {
 
 	const handleProjectClick = (event) => {
 
-		// clear prev hidden figures, if any
-		clearHiddenFigures();
+		// clear prev hidden projects, if any
+		clearHiddenProjects();
 
 		const figureElement = event.currentTarget;
 
@@ -223,46 +261,75 @@ export default function ProjectsArchive() {
 		const selectedProjectId = figureElement.getAttribute('projectId');
 		figureElement.classList.add('hidden');
 		setActiveProjectId(selectedProjectId);
+		setActiveProjectState('opening');
 		return;
 	}
 
 	const projectsList = projects.map((project) => {
 			return (
-			<figure projectId={project.id} onClick={handleProjectClick} className={`project-item ${project.category}`}>
+			<figure 
+				key={project.id}
+				projectId={project.id} 
+				onClick={handleProjectClick} 
+				className={`project-item ${project.category}`}
+			>
 				<img src={project.thumbnail}/>
 				<figcaption className='project-title hidden'>{project.title}</figcaption>
 			</figure>
 		);
 	});
 
+	const handleAnimationEnd = (state, setState) => {
+		console.log('state:', state);
+		console.log('setState', setState);
+		if (state === 'opening') {
+			setState('open');
+			return null;
+		}
+		if (state === 'closing') {
+			setState('closed');
+			return null;
+		}
+		return null;
+	}
+
 	return (
 		<div>
 			<h1>Projects</h1>
 			{
-				category !== 'all' &&
+				activeCategoryState !== 'closed' &&
 				<ActiveCategory 
 					name={category.name} 
 					description={category.description} 
 					imageSrc={category.imageSrc} 
 					link={category.link} 
 					slug={category.slug}
+					dataClosing={activeCategoryState === 'closing'}
+					onAnimationEnd={(event) => handleAnimationEnd(activeCategoryState, setActiveCategoryState)}
 				/>
 			}
 			<section id='category-list'>
-				{<CategoryDisplay categories={categories} handleClick={handleCategoryChange}/>}
+				{<CategoryDisplay isDisabled={isLoading} categories={categories} handleClick={handleCategoryChange}/>}
 			</section>
 			{
-				activeProjectId !== null && 
+				activeProjectState !== 'closed' &&
 				<ActiveProject 
 					key={activeProjectId} 
 					projects={projects} 
 					projectId={activeProjectId}
 					handleClose={handleActiveProjectClose}
+					dataClosing={activeProjectState === 'closing'}
+					onAnimationEnd={(event) => handleAnimationEnd(activeProjectState, setActiveProjectState)}
 				/>
 			}
-			<div id='projects-grid'>
-				{projectsList}
-			</div>
+			{ isLoading ?
+				<LoadingSpinner /> :
+				(
+					<div id='projects-grid' >
+						{projectsList}
+					</div>
+				)
+			}
 		</div>
 	);
 };
