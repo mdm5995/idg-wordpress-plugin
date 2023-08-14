@@ -60,6 +60,10 @@ button#commercial {
 	line-height: 0;
 }
 
+.project-item { 
+	margin: 0;
+}
+
 #projects-grid img {
 	width: 100%;
 	height: 100%;
@@ -230,3 +234,25 @@ container#active-category {
 }
 
 /* End Project Page Template Styles */
+
+/* block quote styles */
+div.wp-block-columns.alignwide.idg-project-quote-container {
+	max-width: 67.5rem;
+}
+
+.idg-project-quote {
+	padding: 0;
+	margin: 0;
+	font-style: italic;
+}
+
+.idg-project-quote cite {
+	text-align: right;
+	display: block;
+	font-weight: bold;
+}
+
+.idg-project-quote-image {
+	height: 300px;
+	width: 300px;
+}

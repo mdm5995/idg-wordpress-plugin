@@ -2,6 +2,7 @@ import { useState, useEffect } from '@wordpress/element';
 
 // TODO: create some order functionality
 // need to create a new custom term meta for 'sort order' in PHP
+// this might be scope creep -- can possibly launch without?
 const CategoryDisplay = ({categories, handleClick}) => {
 	const categoriesList = categories.map((category) => {
 		return (
@@ -12,15 +13,6 @@ const CategoryDisplay = ({categories, handleClick}) => {
 	});
 	return categoriesList;
 }
-
-// This displays the currently selected category, if any.
-// Requires the following data from 'categories' state array:
-// Category name
-// Category description
-// Category link
-// this needs to be retrieved from DB using imageId
-//// can write helper function probably
-	// Category image src
 
 const ActiveCategory = ({name, description, link, imageSrc, slug}) => {
 	return (
@@ -69,7 +61,7 @@ const ActiveProject = ({projects, projectId, handleClose}) => {
 						<h2 id='active-project-title'>{selectedProject.title}</h2>
 						<hr />
 						{/* this html comes from WP_REST_API so it should be safe? */}
-						<section dangerouslySetInnerHTML={selectedProject.content}></section>
+						<section dangerouslySetInnerHTML={selectedProject.excerpt}></section>
 						<a className={`learn-more-button ${selectedProject.category}`} href={selectedProject.link}>Learn More</a>
 					</section>
 				</section>

@@ -18,11 +18,12 @@ function register_custom_project_post_type() {
 		'menu_position' => 20,
 		'menu_icon' => 'dashicons-portfolio',
 		'has_archive' => true,
+		'hierarchical' => false,
 		'taxonomy' => 'project_categories',
 		'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt'),
 		'template' => array(
 			array(
-				'core/heading',
+				'core/post-title',
 				array(
 					'level' => 1,
 					'className' => 'idg-project-title',
@@ -30,8 +31,25 @@ function register_custom_project_post_type() {
 				),
 			),
 			array(
-				'core/image',
+				'core/separator',
+				array(
+					'style' => array(
+						'color' => array(
+							'background' => '#76bb21',
+						),
+						'className' => 'is-style-default idg-project-separator',
+					),
+				),
+			),
+			array(
+				'core/post-featured-image',
 				array(),
+			),
+			array(
+				'idg/project-menu-block',
+				array(
+					'align' => 'full',
+				),
 			),
 			array(
 				'core/columns',
@@ -45,7 +63,7 @@ function register_custom_project_post_type() {
 						array(
 							'width' => '50%',
 							'layout' => array(
-								'type' => 'default'
+							'type' => 'default'
 							),
 						),
 						array(
@@ -81,7 +99,7 @@ function register_custom_project_post_type() {
 							'width' => '35%',
 							'className' => 'idg-project-info-section',
 							'layout' => array(
-								'type' => 'default'
+							'type' => 'default'
 							),
 						),
 						array(
@@ -130,6 +148,97 @@ function register_custom_project_post_type() {
 							'background' => '#76bb21',
 						),
 						'className' => 'is-style-default idg-project-separator',
+					),
+				),
+			),
+			array(
+				'idg/gallery-block',
+				array(),
+			),
+			array(
+				'core/heading',
+				array(
+					'level' => 2,
+					'textAlign' => 'center',
+					'content' => 'Explore',
+					'anchor' => 'explore',
+				),
+			),
+			array(
+				'core/separator',
+				array(
+					'style' => array(
+						'color' => array(
+							'background' => '#76bb21',
+						),
+						'className' => 'is-style-default idg-project-separator',
+					),
+				),
+			),
+			array(
+				'idg/matterport-block',
+				array(
+					'align' => 'wide',
+				),
+			),
+			array(
+				'core/columns',
+				array(
+					'className' => 'idg-project-quote-container',
+					'verticalAlignment' => 'center',
+					'align' => 'wide',
+					'style' => array(
+						'spacing' => array(
+							'margin' => array(
+								'top' => '3rem',
+							),
+						),
+					),
+				),
+				array(
+					array(
+						'core/column',
+						array(
+							'verticalAlignment' => 'center',
+							'width' => '33.33%',
+						),
+						array(
+							array(
+								'core/image',
+								array(
+									'className' => 'idg-project-quote-image',
+									'align' => 'center',
+									'width' => 300,
+									'height' => 300,
+									'sizeSlug' => 'full',
+									'linkDestination' => 'none',
+									'style' => array(
+										'border' => array(
+											'radius' => '100%',
+											'color' => '#76bb21',
+											'width' => '4px',
+										),
+									),
+								),
+							),
+						),
+					),
+					array(
+						'core/column',
+						array(
+							'verticalAlignment' => 'center',
+							'width' => '66.66%',
+						),
+						array(
+							array(
+								'core/quote',
+								array(
+									'className' => 'idg-project-quote',
+									'value' => 'insert quote here',
+									'citation' => 'insert citation here',
+								),
+							),
+						),
 					),
 				),
 			),
@@ -263,21 +372,4 @@ add_action('init', 'idg_blocks_register');
 function idg_blocks_register() {
 	register_block_type(__DIR__ . '/Blocks/MatterportBlock/block.json');
 	register_block_type(__DIR__ . '/Blocks/GalleryBlock/block.json');
-
-		/*
-	// load dependencies and version from @wordpress/scripts generated file
-	$asset_file = include(plugin_dir_path(__FILE__) . '/build/index.asset.php');
-
-	wp_register_script(
-		'idg-matterport-block-script',
-		plugins_url('build/index.js', __FILE__),
-		$asset_file['dependencies'],
-		$asset_file['version'],
-	);
-
-	register_block_type(
-		'idg/matterport-block',
-		array( 'editor_script' => 'idg-matterport-block-script' )
-	);
-		 * */
 };
