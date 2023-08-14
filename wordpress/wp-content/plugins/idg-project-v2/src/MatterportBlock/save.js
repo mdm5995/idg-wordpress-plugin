@@ -1,6 +1,6 @@
 import { useBlockProps } from '@wordpress/block-editor'
 
-const save = ({attributes}) => {
+const Save = ({attributes}) => {
 	return (
 		<div {...useBlockProps.save()}>
 			<iframe 
@@ -15,4 +15,4 @@ const save = ({attributes}) => {
 	);
 };
 
-export default save;
+export default Save;

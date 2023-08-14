@@ -125,16 +125,13 @@ button#commercial {
 
 .active-project-image {
 	object-fit: cover;
-	/* TODO: change to max-width (maybe) */
-	width: 37.5rem;
-	height: 28.125rem;
-	/* END TODO */
+	flex: 1 1 0;
 }
 
 #active-project-description {
 	display: flex;
 	flex-flow: column wrap;
-	width: 100%;
+	flex: 1 1 0;
 }
 
 #active-project-title {
@@ -252,7 +249,10 @@ div.wp-block-columns.alignwide.idg-project-quote-container {
 	font-weight: bold;
 }
 
-.idg-project-quote-image {
+/* this targets a <figure> element, 
+ * hence the additional img selector */
+.idg-project-quote-image img {
+	object-fit: cover;
 	height: 300px;
 	width: 300px;
 }

@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "idg/quote-block",
+	"title": "IDG Quote Block",
+	"category": "widgets",
+	"icon": "embed-generic",
+	"description": "Add an IDG styled block quote",
+	"keywords": ["quote", "circle", "blockquote", "project", "idg"],
+	"supports": {
+		"html": false,
+		"align": true
+	},
+	"attributes": {
+	},
+	"editorScript": "file:./index.js"
+}

@@ -72,6 +72,7 @@ function register_custom_project_post_type() {
 								array(
 									'level' => 2,
 									'placeholder' => 'Enter project subtitle',
+									'anchor' => 'learn',
 								),
 							),
 							array(
@@ -138,6 +139,7 @@ function register_custom_project_post_type() {
 					'level' => 2,
 					'textAlign' => 'center',
 					'content' => 'Gallery',
+					'anchor' => 'view',
 				),
 			),
 			array(
@@ -370,6 +372,8 @@ add_action('wp_enqueue_scripts', 'idg_projects_page_enqueue_scripts');
 // Register Matterport block
 add_action('init', 'idg_blocks_register');
 function idg_blocks_register() {
-	register_block_type(__DIR__ . '/Blocks/MatterportBlock/block.json');
-	register_block_type(__DIR__ . '/Blocks/GalleryBlock/block.json');
+	register_block_type_from_metadata(__DIR__ . '/build/MatterportBlock/block.json');
+	register_block_type_from_metadata(__DIR__ . '/build/GalleryBlock/block.json');
+	register_block_type_from_metadata(__DIR__ . '/build/ProjectMenuBlock/block.json');
+	register_block_type_from_metadata(__DIR__ . '/build/QuoteBlock/block.json');
 };

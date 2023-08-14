@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "wp-scripts build",
-    "start": "wp-scripts start --webpack-src-dir=src"
+    "start": "wp-scripts start"
   },
   "name": "idg-project-plugin",
   "version": "0.0.1",
@@ -14,5 +14,13 @@
   },
   "dependencies": {
     "@wordpress/element": "^5.14.0"
-  }
+  },
+	"webpack": {
+		"entry": {
+			"main": "./src/index.js",
+			"galleryBlockEntry": "./src/GalleryBlock/index.js",
+			"MatterportBlockEntry": "./src/MatterportBlock/index.js",
+			"ProjectMenuBlockEntry": "./src/ProjectMenuBlock/index.js"
+		}
+	}
 }

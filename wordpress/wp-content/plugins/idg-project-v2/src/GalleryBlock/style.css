@@ -1,0 +1,88 @@
+.is-layout-constrained > .wp-block-idg-gallery-block.alignfull .idg-gallery-container {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr 1fr;
+	grid-auto-rows: 20rem;
+	max-width: 81rem;
+	margin: 0 auto;
+	margin-top: 1.5rem;
+	margin-bottom: 4rem;
+  align-items: stretch;
+  justify-items: stretch;
+}
+
+
+.wp-block-idg-gallery-block .idg-gallery-container div h3 {
+	position: absolute;
+	display: none;
+	transition: all 300ms;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 100%;
+  margin: 0 auto;
+	z-index: 0;
+}
+
+.wp-block-idg-gallery-block .idg-gallery-container div:hover h3 {
+	display: block;
+	transition: all 300ms;
+	z-index: 5;
+}
+
+.wp-block-idg-gallery-block .idg-gallery-container div {
+  position: relative;
+	transition: all 300ms;
+	border: 1px solid #76bb21;
+}
+
+.wp-block-idg-gallery-block .idg-gallery-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: all 300ms;
+}
+
+.wp-block-idg-gallery-block .idg-gallery-container div:hover img {
+	filter: brightness(0.2);
+	transition: all 300ms;
+}
+
+/* Begin Lightbox styles */
+
+.wp-block-idg-gallery-block .overlay {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.lightbox.close-button {
+	position: absolute;
+  color: white;
+  font-size: 3rem;
+  right: 1rem;
+  top: 4rem;
+  border: 1px solid red;
+  cursor: pointer;
+  font-family: 'Open sans', sans-serif;
+}
+
+.overlay figure {
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  padding: 0.25rem;
+}
+
+.overlay figure figcaption {
+  color: white;
+  padding: 1rem;
+}

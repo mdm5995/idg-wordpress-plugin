@@ -11,21 +11,9 @@ import {
 	PanelRow
 } from '@wordpress/components';
 
-const edit = ({attributes, setAttributes}) => {
+const Edit = ({attributes, setAttributes}) => {
 	
 	const blockProps = useBlockProps();
-
-	const onChangeHeight = (newHeight) => {
-		return setAttributes({
-				height: newHeight === undefined ? 1076 : newHeight,
-		});
-	};
-
-	const onChangeWidth = (newWidth) => {
-		return setAttributes({
-				width: newWidth === undefined ? 900 : newWidth,
-		});
-	};
 
 	return (
 		<>
@@ -75,4 +63,4 @@ const edit = ({attributes, setAttributes}) => {
 	);
 };
 
-export default edit;
+export default Edit;

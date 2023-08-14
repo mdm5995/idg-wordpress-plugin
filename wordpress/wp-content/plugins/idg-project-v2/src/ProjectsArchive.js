@@ -32,7 +32,6 @@ const ActiveCategory = ({name, description, link, imageSrc, slug}) => {
 
 // TODO: implement scroll to auto scroll to active project div on rerender.
 // need to research
-
 const ActiveProject = ({projects, projectId, handleClose}) => {
 	const selectedProject = projects.find((project) => {
 		return project.id === parseInt(projectId);

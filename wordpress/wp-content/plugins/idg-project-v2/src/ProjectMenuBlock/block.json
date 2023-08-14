@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "idg/project-menu-block",
+	"title": "Projects Sub-menu",
+	"category": "widgets",
+	"icon": "embed-generic",
+	"description": "Create learn/view/explore menu",
+	"keywords": [ "learn", "view", "explore", "idg", "idg menu", "menu", "projects menu", "project", "projects"],
+	"supports": {
+		"html": false,
+		"align": true
+	},
+	"attributes": {
+		"hasLearn": {
+			"type": "boolean",
+			"default": true
+		},
+		"hasView": {
+			"type": "boolean",
+			"default": true
+		},
+		"hasExplore": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}

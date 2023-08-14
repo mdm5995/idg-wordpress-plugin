@@ -1,0 +1,46 @@
+body, html {
+	scroll-behavior: smooth;
+}
+
+body.admin-bar .wp-block-idg-project-menu-block {
+	top: 30px;
+}
+.wp-block-idg-project-menu-block {
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 10;
+}
+
+#learn, #view, #explore {
+	scroll-margin-top: 6rem;
+	scroll-behavior: smooth;
+}
+
+nav.idg-project-menu {
+  list-style-type: none;
+  padding: 1.5rem 0;
+  margin: 1.5rem auto;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+	color: #888;
+}
+
+.wp-block-idg-project-menu-block nav.idg-project-menu a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+	text-decoration: none;
+	color: #888;
+}
+
+.wp-block-idg-project-menu-block nav.idg-project-menu a:hover {
+	color: #76bb21;
+}
+
+.idg-project-menu span {
+	font-weight: bold;
+	font-size: 1.5rem;
+	margin: 0;
+}

@@ -1,0 +1,56 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "idg/gallery-block",
+	"title": "IDG Project Gallery",
+	"category": "embed",
+	"icon": "embed-generic",
+	"description": "Create project gallery for IDG projects archive",
+	"keywords": [ "project", "gallery", "projects", "idg" ],
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"arrayOfImages": {
+			"type": "array",
+			"default": [],
+			"source": "query",
+			"selector": "div.idg-gallery-image-item",
+			"query": {
+				"src": {
+					"type": "string",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "src"
+				},
+				"alt": {
+					"type": "string",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "alt",
+					"default": ""
+				},
+				"id": {
+					"type": "number",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "data-id"
+				},
+				"caption": {
+					"type": "string",
+					"source": "text",
+					"selector": "h3",
+					"default": ""
+				}
+			}
+		},
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"viewScript": "file:./view.js",
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css"
+}
