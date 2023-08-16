@@ -17,12 +17,16 @@ const Lightbox = ({image, onClose, onNextClick, onPrevClick}) => {
 	return (
 		<div className="overlay dismiss" onClick={handleClose}>
 			<span onClick={onClose} className='lightbox close-button dismiss'>x</span>
-			<figure>
-			<img src={image.src} alt={image.alt} />
-				<figcaption>
-					{image.caption}
-				</figcaption>
-			</figure>
+			<div class='lightbox-container'>
+				<figure>
+				<img src={image.src} alt={image.alt} />
+					<figcaption>
+						{image.caption}
+					</figcaption>
+				</figure>
+				<button className='previous-button' onClick={onPrevClick}>previous</button>
+				<button className='next-button' onClick={onNextClick}>next</button>
+			</div>
 		</div>
 	)
 };
