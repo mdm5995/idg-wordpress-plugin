@@ -63,7 +63,17 @@ function register_custom_project_post_type() {
 						array(
 							'width' => '50%',
 							'layout' => array(
-							'type' => 'default'
+								'type' => 'default'
+							),
+							'style' => array(
+								'spacing' => array(
+									'padding' => array(
+										'top' => '0px',
+										'right' => '0px',
+										'bottom' => '0px',
+										'left' => '0px',
+									),
+								),
 							),
 						),
 						array(
