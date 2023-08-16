@@ -47,7 +47,7 @@
 }
 
 .wp-block-idg-gallery-block .idg-gallery-container div:hover img {
-	filter: brightness(0.2);
+	filter: brightness(0.3);
 	transition: all 300ms;
 }
 
@@ -74,13 +74,47 @@
   font-family: 'Open sans', sans-serif;
 }
 
-.overlay figure {
+.wp-block-idg-gallery-block .lightbox-container button {
+  border-radius: 0;
+  color: #ddd;
+  position: absolute;
+	width: 6rem;
+	height: 3rem;
+	background-color: #333;
+	border: 2px solid #ddd;
+	border-radius: 2px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.wp-block-idg-gallery-block .lightbox-container button:hover {
+	color: #333;
+	border: 2px solid #333;
+	background-color: #ddd;
+}
+
+.wp-block-idg-gallery-block .lightbox-container button.previous-button {
+  left: 0;
+  top: 50%;
+  transform: translate(-115%, -50%);
+}
+
+.wp-block-idg-gallery-block .lightbox-container button.next-button {
+  right: 0;
+  top: 50%;
+  transform: translate(115%, -50%);
+}
+
+.overlay .lightbox-container {
 	position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-	background-color: #222;
 	filter: drop-shadow(0 0 100px black);
+}
+
+.overlay figure {
+	background-color: #222;
 }
 
 .overlay figure figcaption {
