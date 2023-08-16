@@ -262,6 +262,9 @@ export default function ProjectsArchive() {
 		figureElement.classList.add('hidden');
 		setActiveProjectId(selectedProjectId);
 		setActiveProjectState('opening');
+
+		const categoryDisplay = document.querySelector('#category-list');
+		categoryDisplay.scrollIntoView({ behavior: 'smooth' });
 		return;
 	}
 
@@ -295,7 +298,7 @@ export default function ProjectsArchive() {
 
 	return (
 		<div>
-			<h1>Projects</h1>
+			<h1 id='project-page-title'>Projects</h1>
 			{
 				activeCategoryState !== 'closed' &&
 				<ActiveCategory 

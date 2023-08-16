@@ -59,7 +59,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.8);
 }
 
 .lightbox.close-button {
@@ -68,7 +68,7 @@
   font-size: 3rem;
   right: 1rem;
   top: 4rem;
-  border: 1px solid red;
+	right: 3rem;
   cursor: pointer;
   font-family: 'Open sans', sans-serif;
 }
@@ -78,8 +78,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #333;
-  padding: 0.25rem;
+	background-color: #222;
+	filter: drop-shadow(0 0 100px black);
 }
 
 .overlay figure figcaption {
